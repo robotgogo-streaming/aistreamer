@@ -1,1 +1,4 @@
 *.o
+*.pb.cc
+*.pb.h
+aistreamer
