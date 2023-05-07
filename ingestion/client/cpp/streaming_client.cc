@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "client/cpp/streaming_client.h"
+#include "streaming_client.h"
 
 #include <google/protobuf/util/json_util.h>
 
@@ -30,17 +30,15 @@
 #include <thread>
 #include <vector>
 
-#include "client/cpp/file_reader.h"
-#include "client/cpp/file_writer.h"
-#include "client/cpp/media_player.h"
-#include "client/cpp/pipe_reader.h"
-#include "client/cpp/proto_processor.h"
-#include "client/cpp/proto_writer.h"
+#include "file_reader.h"
+#include "file_writer.h"
+#include "pipe_reader.h"
+#include "proto_processor.h"
+#include "proto_writer.h"
 #include "gflags/gflags.h"
 #include "glog/logging.h"
 
 DEFINE_string(config, "", "Config request JSON object.");
-DEFINE_bool(enable_player, false, "Enable live visualizer.");
 DEFINE_string(endpoint, "dns:///videointelligence.googleapis.com",
               "API endpoint to connect to.");
 DEFINE_string(local_storage_annotation_result, "",
@@ -73,7 +71,6 @@ using ::google::protobuf::util::JsonStringToMessage;
 using ::grpc::ClientContext;
 using ::grpc::ClientReaderWriter;
 
-void StartMediaPlayer(api::video::MediaPlayer* player) { player->Init(); }
 
 }  // namespace
 
@@ -104,18 +101,11 @@ bool StreamingClient::Init(int* argc_ptr, char*** argv_ptr) {
     return false;
   }
 
-  // Creates media player.
-  if (FLAGS_enable_player) {
-    player_ = new MediaPlayer(FLAGS_font_type);
-  }
 
   return true;
 }
 
 StreamingClient::~StreamingClient() {
-  if (player_ != nullptr) {
-    delete player_;
-  }
 }
 
 bool StreamingClient::Run() {
@@ -148,19 +138,13 @@ void StreamingClient::ReadResponse() {
                           << FLAGS_local_storage_annotation_result;
   }
 
-  std::unique_ptr<std::thread> player_thread;
   while (stream_->Read(&resp)) {
     // Start playing video when first response is received.
-    if (total_responses_received == 0 && FLAGS_enable_player) {
-      player_thread.reset(new std::thread(StartMediaPlayer, player_));
-    }
+    
     total_responses_received++;
     ProtoProcessor::Process(feature_, resp.annotation_results());
 
-    if (player_ != nullptr) {
-      player_->InsertAnnotationResponse(resp);
-    }
-
+    
     if (resp.has_error()) {
       LOG(ERROR) << "Received an error: " << resp.error().message();
     } else if (enable_local_storage_annotation_result) {
@@ -168,9 +152,7 @@ void StreamingClient::ReadResponse() {
     }
   }
   LOG(INFO) << "Received " << total_responses_received << " responses.";
-  if (player_thread != nullptr) {
-    player_thread->join();
-  }
+  
   if (enable_local_storage_annotation_result) {
     writer->Close();
   }
@@ -221,9 +203,7 @@ bool StreamingClient::SendContent() {
       break;
     }
     std::string data(buffer.data(), num_bytes_read);
-    if (player_ != nullptr) {
-      player_->InsertStreamData(data);
-    }
+   
     StreamingAnnotateVideoRequest req;
     req.set_input_content(data);
     if (!stream_->Write(req)) {

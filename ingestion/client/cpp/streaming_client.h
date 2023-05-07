@@ -26,7 +26,7 @@
 
 #include "glog/logging.h"
 #include "grpc++/grpc++.h"
-#include "proto/video_intelligence_streaming.grpc.pb.h"
+#include "video_intelligence_streaming.grpc.pb.h"
 
 namespace api {
 namespace video {

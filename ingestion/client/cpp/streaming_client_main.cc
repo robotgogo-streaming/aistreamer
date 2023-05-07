@@ -20,7 +20,7 @@
 
 // One Platform GRPC client for the Cloud Video Intelligence Streaming API.
 
-#include "client/cpp/streaming_client.h"
+#include "streaming_client.h"
 
 int main(int argc, char** argv) {
   api::video::StreamingClient client;

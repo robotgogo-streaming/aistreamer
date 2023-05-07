@@ -20,11 +20,11 @@
 
 #include <string>
 
-#include "client/cpp/proto_reader.h"
-#include "client/cpp/proto_writer.h"
+#include "proto_reader.h"
+#include "proto_writer.h"
 #include "google/protobuf/duration.pb.h"
 #include "gtest/gtest.h"
-#include "proto/video_intelligence_streaming.grpc.pb.h"
+#include "video_intelligence_streaming.grpc.pb.h"
 
 namespace api {
 namespace video {

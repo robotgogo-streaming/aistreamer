@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "client/cpp/proto_writer.h"
+#include "proto_writer.h"
 
 #include "glog/logging.h"
 

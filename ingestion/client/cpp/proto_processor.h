@@ -21,7 +21,7 @@
 #ifndef API_VIDEO_CLIENT_CPP_PROTO_PROCESSOR_H_
 #define API_VIDEO_CLIENT_CPP_PROTO_PROCESSOR_H_
 
-#include "proto/video_intelligence_streaming.grpc.pb.h"
+#include "video_intelligence_streaming.grpc.pb.h"
 
 namespace api {
 namespace video {

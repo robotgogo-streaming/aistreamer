@@ -27,7 +27,7 @@
 #include <string>
 #include <thread>
 
-#include "client/cpp/io_reader.h"
+#include "io_reader.h"
 #include "glog/logging.h"
 
 namespace api {

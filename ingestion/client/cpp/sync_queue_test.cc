@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "client/cpp/sync_queue.h"
+#include "sync_queue.h"
 
 #include <condition_variable>
 #include <memory>

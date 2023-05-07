@@ -26,7 +26,7 @@
 #include <fstream>
 #include <memory>
 
-#include "client/cpp/io_reader.h"
+#include "io_reader.h"
 #include "glog/logging.h"
 
 namespace api {

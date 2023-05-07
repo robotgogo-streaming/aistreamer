@@ -22,7 +22,7 @@ syntax = "proto3";
 package google.cloud.videointelligence.v1p3beta1;
 
 import "google/protobuf/duration.proto";
-import "proto/status.proto";
+import "status.proto";
 
 // Bucketized representation of likelihood.
 enum Likelihood {
